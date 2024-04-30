@@ -7,9 +7,12 @@ from rest_framework.response import Response
 from .serializer import ArticleSerializer, CommentSeraializer, ArticleDetailSerializer
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
 
 
 class ArticleListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request):
         articles = Article.objects.all()
         serializer = ArticleSerializer(articles, many=True)
