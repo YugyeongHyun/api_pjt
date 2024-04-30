@@ -4,7 +4,7 @@ from .models import Article, Comment
 from django.core import serializers
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializer import ArticleSerializer, CommentSeraializer
+from .serializer import ArticleSerializer, CommentSeraializer, ArticleDetailSerializer
 from rest_framework import status
 from rest_framework.views import APIView
 
@@ -28,12 +28,12 @@ class ArticledetailAPIView(APIView):
 
     def get(self, request, pk):
         article = self.get_object(pk)
-        serializer = ArticleSerializer(article)
+        serializer = ArticleDetailSerializer(article)
         return Response(serializer.data)
 
     def put(self, request, pk):
         article = self.get_object(pk)
-        serializer = ArticleSerializer(
+        serializer = ArticleDetailSerializer(
             article, data=request.data, partial=True)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
