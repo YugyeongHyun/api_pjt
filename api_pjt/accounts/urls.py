@@ -7,4 +7,3 @@ urlpatterns = [
          name='token_obtain_pair'),
     path('<str:username>',
          UserProfileView.as_view(), name='user_profile'),
-]
