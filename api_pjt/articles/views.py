@@ -26,6 +26,8 @@ class ArticleListAPIView(APIView):
 
 
 class ArticledetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get_object(self, pk):
         return get_object_or_404(Article, pk=pk)
 
@@ -49,6 +51,8 @@ class ArticledetailAPIView(APIView):
 
 
 class CommentListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def get(self, request, article_pk):
         article = get_object_or_404(Article, pk=article_pk)
         comments = article.comments.all()
@@ -64,6 +68,8 @@ class CommentListAPIView(APIView):
 
 
 class CommentDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
     def delete(self, request, comment_pk):
         comment = get_object_or_404(Comment, pk=comment_pk)
         comment.delete()
