@@ -30,5 +30,5 @@
 
 
 
-<spartamarket ERD>
+# <spartamarket ERD>
 <img width="313" alt="image" src="https://github.com/YugyeongHyun/api_pjt/assets/160835276/a3cb482e-1e40-4e93-b7ad-a488aab14322">
