@@ -22,15 +22,34 @@ class MyTokenObtainPairView(TokenObtainPairView):
 
 class UserProfileView(APIView):
     def get(self, request, username):
+        if not request.user.is_authenticated:
+            return Response({"message": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+
         user = request.user
-        if user.is_authenticated and user.username == username:
-            data = {
-                "username": user.username,
-                "email": user.email,
-                "nickname": user.nickname,
-                "birthday": user.birthday,
-                "gender": user.gender,
-                "bio": user.bio,
-            }
-            return Response(data)
-        return Response({"message": "Unauthorized"}, status=status.HTTP_401_UNAUTHORIZED)
+        if user.username != username:
+            return Response({"message": "Unauthorized access to another user's profile"}, status=status.HTTP_403_FORBIDDEN)
+
+        data = {
+            "username": user.username,
+            "email": user.email,
+            "nickname": user.nickname,
+            "birthday": user.birthday,
+            "gender": user.gender,
+            "bio": user.bio,
+        }
+        return Response(data)
+
+    def put(self, request, username):
+        if not request.user.is_authenticated:
+            return Response({"message": "User not authenticated"}, status=status.HTTP_401_UNAUTHORIZED)
+
+        user = request.user
+        if user.username != username:
+            return Response({"message": "Unauthorized access to another user's profile"}, status=status.HTTP_403_FORBIDDEN)
+
+        serializer = UserRegistrationSerializer(
+            user, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

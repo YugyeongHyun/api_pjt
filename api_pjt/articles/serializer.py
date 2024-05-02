@@ -15,13 +15,18 @@ class CommentSeraializer(serializers.ModelSerializer):
 
 
 class ArticleSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Article
-        fields = "__all__"
+        fields = ('title', 'content', 'image',
+                  'created_at', 'updated_at', 'author')
 
 
 class ArticleDetailSerializer(ArticleSerializer):
     comments = CommentSeraializer(many=True, read_only=True)
     comments_count = serializers.IntegerField(
         source="comments.count", read_only=True)
+
+    class Meta:
+        model = Article
+        fields = ('title', 'content', 'image',
+                  'created_at', 'updated_at', 'author', 'comments', 'comments_count')
