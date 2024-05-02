@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from .serializer import ArticleSerializer, CommentSeraializer, ArticleDetailSerializer
 from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsOwnerOrReadOnly
 
 
 class ArticleListAPIView(APIView):
@@ -16,6 +18,7 @@ class ArticleListAPIView(APIView):
         return Response(serializer.data)
 
     def post(self, request):
+        permission_classes = [IsAuthenticated]
         serializer = ArticleSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
@@ -23,6 +26,8 @@ class ArticleListAPIView(APIView):
 
 
 class ArticledetailAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
     def get_object(self, pk):
         return get_object_or_404(Article, pk=pk)
 
@@ -61,6 +66,8 @@ class CommentListAPIView(APIView):
 
 
 class CommentDetailAPIView(APIView):
+    permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+
     def delete(self, request, comment_pk):
         comment = get_object_or_404(Comment, pk=comment_pk)
         comment.delete()
