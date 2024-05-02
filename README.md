@@ -12,7 +12,9 @@
 # ✅주요 기능
 **로그인**  : 완료
 
-**회원가입** : 완료
+**회원가입** : 
+<img width="1280" alt="image" src="https://github.com/YugyeongHyun/api_pjt/assets/160835276/fad6b329-a40d-4b19-bb36-76213d39c969">
+
 
 **상세페이지(계정)** : 미완성
 
